@@ -18,6 +18,7 @@ POpen.py
 PPriv.py
 PPub.py
 PDirect.py
+toolmaster.py
 speedtest.py
 speed.sh
 utils.sh
