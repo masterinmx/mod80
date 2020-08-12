@@ -15,7 +15,7 @@ if [ "$pid_badvpn" = "" ]; then
     wget -O /bin/badvpn-udpgw https://raw.githubusercontent.com/scriptsmx/herramientas/master/BadUDP/badvpn-udpgw &>/dev/null
     chmod +x /bin/badvpn-udpgw
     fi
-    screen -dmS screen /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 50
+    screen -dmS screen /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
     [[ "$(ps x | grep badvpn | grep -v grep | awk '{print $1}')" ]] && echo -e "${cor[5]} $(fun_trans ${id} "Activado")" || echo -e "${cor[5]} $(fun_trans ${id} "Falla al Instalar")"
 else
     echo -e "${cor[5]} $(fun_trans ${id} "deteniendo Badvpn")"
@@ -28,7 +28,7 @@ else
 unset pid_badvpn
 }
 TCPspeed () {
-if [[ `grep -c "^#ADMIN" /etc/sysctl.conf` -eq 0 ]]; then
+if [[ `grep -c "^#ADM" /etc/sysctl.conf` -eq 0 ]]; then
 #INSTALA
 echo -e "${cor[5]} $(fun_trans ${id} "TCP Speed No Activado, Desea Activar Ahora")?"
 echo -e "${barra}"
@@ -37,7 +37,7 @@ read -p " [S/N]: " -e -i s resposta
 tput cuu1 && tput dl1
 done
 [[ "$resposta" = @(s|S|y|Y) ]] && {
-echo "#ADMIN" >> /etc/sysctl.conf
+echo "#ADM" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_window_scaling = 1
 net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216
@@ -57,7 +57,7 @@ read -p " [S/N]: " -e -i s resposta
 tput cuu1 && tput dl1
 done
 [[ "$resposta" = @(s|S|y|Y) ]] && {
-grep -v "^#ADMIN
+grep -v "^#ADM
 net.ipv4.tcp_window_scaling = 1
 net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216
@@ -186,7 +186,7 @@ echo -e "$barra\n $(fun_trans ${id} "Aplicado!")"
 on="\033[1;32m(ON)"
 off="\033[1;31m(OFF)"
 [[ $(ps x | grep badvpn | grep -v grep | awk '{print $1}') ]] && badvpn=$on || badvpn=$off
-[[ `grep -c "^#ADMIN" /etc/sysctl.conf` -eq 0 ]] && tcp=$off || tcp=$on
+[[ `grep -c "^#ADM" /etc/sysctl.conf` -eq 0 ]] && tcp=$off || tcp=$on
 if [ -e /etc/squid/squid.conf ]; then
 [[ `grep -c "^#CACHE DO SQUID" /etc/squid/squid.conf` -gt 0 ]] && squid=$on || squid=$off
 elif [ -e /etc/squid3/squid.conf ]; then
